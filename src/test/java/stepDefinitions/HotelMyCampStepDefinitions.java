@@ -4,8 +4,12 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 import pages.HMCPage;
 import utilities.ConfigReader;
+import utilities.Driver;
+import utilities.ReusableMethods;
 
 public class HotelMyCampStepDefinitions {
 
@@ -14,6 +18,7 @@ HMCPage hmcPage=new HMCPage();
 
     @Given("login linkine tiklar")
     public void login_linkine_tiklar() {
+        ReusableMethods.waitForClickablility(hmcPage.mainPageLoginLinki,15);
   hmcPage.mainPageLoginLinki.click();
     }
 
@@ -29,7 +34,8 @@ hmcPage.passwordTextBox.sendKeys(ConfigReader.getProperty(passwordTuru));
 
     @Then("Login butonuna basar")
     public void login_butonuna_basar() {
-hmcPage.loginButonu.click();
+
+        hmcPage.loginButonu.click();
     }
 
     @Then("basarili olarak giris yapildigini test eder")
@@ -43,5 +49,16 @@ hmcPage.loginButonu.click();
     public void girisYapilamadiginiTestEder() {
         Assert.assertTrue(hmcPage.girisYapilamadiYaziElementi.isDisplayed());
 
+    }
+
+    @Then("scenario outline'dan kullanici adi olarak{string} yazar")
+    public void scenarioOutlineDanKullaniciAdiOlarakYazar(String username) {
+  hmcPage.usernameTextBox.sendKeys(username);
+    }
+
+    @And("scenario outline'dan password olarak {string} yazar")
+    public void scenarioOutlineDanPasswordOlarakYazar(String password) {
+
+        hmcPage.passwordTextBox.sendKeys(password);
     }
 }
